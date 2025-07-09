@@ -1,0 +1,434 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Digital Home Manager</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        :root {
+            --primary: #1E2A38;    /* Navy Blue */
+            --secondary: #F5F7FA;  /* Soft Gray */
+            --accent: #2CA9E1;     /* Sky Blue */
+            --text: #2B2B2B;       /* Charcoal */
+            --white: #FFFFFF;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+        }
+        
+        body {
+            color: var(--text);
+            background-color: var(--secondary);
+        }
+        
+        #header {
+            background-color: var(--primary);
+            background-image: none;
+        }
+        
+        #header h1 a {
+            color: var(--white);
+        }
+        
+        #nav {
+            background-color: var(--primary);
+            background-image: none;
+        }
+        
+        #nav > ul > li.current:before {
+            background-color: var(--accent);
+        }
+        
+        #banner {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        #banner header {
+            background: rgba(30, 42, 56, 0.9);
+        }
+        
+        .button {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .button:hover {
+            background-color: #1E88C1;
+        }
+        
+        .box.highlight {
+            background-color: var(--white);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .appliance-card {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .appliance-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .appliance-icon {
+            font-size: 2.5em;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status-on {
+            background-color: var(--success);
+        }
+        
+        .status-off {
+            background-color: var(--danger);
+        }
+        
+        .dashboard-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        #cta {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        #footer {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        #footer a {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            color: rgba(255,255,255,0.7);
+        }
+    </style>
+</head>
+
+<body class="is-preload">
+    <!-- Login Section -->
+    <div id="login-section" style="display:none; padding: 50px; text-align: center; background-color: var(--secondary);">
+        <div style="max-width: 400px; margin: 0 auto; background: var(--white); padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h2 style="color: var(--primary); margin-bottom: 30px;">Login to Digital Home Manager</h2>
+            <input type="text" id="username" placeholder="Username" style="padding: 12px; margin: 10px 0; width: 100%; border: 1px solid #ddd; border-radius: 4px;"><br>
+            <input type="password" id="password" placeholder="Password" style="padding: 12px; margin: 10px 0 20px; width: 100%; border: 1px solid #ddd; border-radius: 4px;"><br>
+            <button onclick="login()" style="padding: 12px 24px; background-color: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Login</button>
+            <p id="login-error" style="color: var(--danger); margin-top: 15px;"></p>
+        </div>
+    </div>
+
+    <!-- Logout Button -->
+    <div id="logout-bar" style="display: none; position: fixed; top: 10px; right: 10px;">
+        <button onclick="logout()" style="padding: 8px 16px;">Logout</button>
+    </div>
+
+    <div id="site-content" style="display: none;">
+    <div id="page-wrapper">
+        <!-- Header -->
+        <div id="header">
+            <h1><a href="index copy.html" id="logo">Digital Home Manager <em>by Sarthak P</em></a></h1>
+            <nav id="nav">
+                <ul>
+                    <li class="current"><a href="index copy.html">Dashboard</a></li>
+                    <li>
+                        <a href="#">Manage</a>
+                        <ul>
+                            <li><a href="Appliances.html">Appliances</a></li>
+                            <li><a href="#">Rooms</a></li>
+                            <li><a href="#">Energy Usage</a></li>
+                            <li><a href="#">Maintenance</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="Reports.html">Reports</a></li>
+                    <li><a href="Settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+
+
+
+        <!-- Banner -->
+        <section id="banner">
+            <header>
+                <h2>Welcome to Your Digital Home <em>Manage all your appliances in one place</em></h2>
+                <a href="#" class="button">Add New Appliance</a>
+            </header>
+        </section>
+
+        <!-- Highlights -->
+        <section class="wrapper style1">
+            <div class="container">
+                <div class="row gtr-200">
+                    <section class="col-4 col-12-narrower">
+                        <div class="box highlight">
+                            <i class="icon solid major fa-plug"></i>
+                            <h3>Connected Devices</h3>
+                            <p>View and manage all your connected smart home devices in one centralized dashboard.</p>
+                        </div>
+                    </section>
+                    <section class="col-4 col-12-narrower">
+                        <div class="box highlight">
+                            <i class="icon solid major fa-bolt"></i>
+                            <h3>Energy Monitoring</h3>
+                            <p>Track energy consumption and identify opportunities to save on your utility bills.</p>
+                        </div>
+                    </section>
+                    <section class="col-4 col-12-narrower">
+                        <div class="box highlight">
+                            <i class="icon solid major fa-bell"></i>
+                            <h3>Alerts & Notifications</h3>
+                            <p>Get notified about maintenance needs, unusual activity, or security alerts.</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section class="wrapper style2">
+            <div class="container">
+                <header class="major">
+                    <h2>Your Home Dashboard</h2>
+                    <p>Overview of all your connected devices and systems</p>
+                </header>
+                
+                <div class="dashboard-section">
+                    <h3>Recently Used Appliances</h3>
+                    <div class="row">
+                        <section class="col-4 col-12-narrower">
+                            <div class="appliance-card">
+                                <div class="appliance-icon"><i class="fas fa-tv"></i></div>
+                                <h4>Living Room TV</h4>
+                                <p><span class="status-indicator status-on"></span> Currently On</p>
+                                <p>Last used: 15 minutes ago</p>
+                            </div>
+                        </section>
+                        <section class="col-4 col-12-narrower">
+                            <div class="appliance-card">
+                                <div class="appliance-icon"><i class="fas fa-thermometer-half"></i></div>
+                                <h4>Thermostat</h4>
+                                <p><span class="status-indicator status-on"></span> Set to 72°F</p>
+                                <p>Energy saving mode: Active</p>
+                            </div>
+                        </section>
+                        <section class="col-4 col-12-narrower">
+                            <div class="appliance-card">
+                                <div class="appliance-icon"><i class="fas fa-lightbulb"></i></div>
+                                <h4>Kitchen Lights</h4>
+                                <p><span class="status-indicator status-off"></span> Currently Off</p>
+                                <p>Last used: 2 hours ago</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                
+                <div class="dashboard-section">
+                    <h3>Energy Usage Summary</h3>
+                    <div class="row">
+                        <section class="col-6 col-12-narrower">
+                            <div class="box post">
+                                <a href="#" class="image left"><img src="images/energy-chart.png" alt="Energy Usage Chart" /></a>
+                                <div class="inner">
+                                    <h3>This Month's Consumption</h3>
+                                    <p>You've used 450 kWh this month, which is 15% less than last month. Great job conserving energy!</p>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="col-6 col-12-narrower">
+                            <div class="box post">
+                                <a href="#" class="image left"><img src="images/cost-savings.png" alt="Cost Savings" /></a>
+                                <div class="inner">
+                                    <h3>Potential Savings</h3>
+                                    <p>By optimizing your appliance usage, you could save approximately $45 this month.</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Maintenance Section -->
+        <section class="wrapper style1">
+            <div class="container">
+                <header class="major">
+                    <h2>Maintenance Alerts</h2>
+                    <p>Upcoming and recommended maintenance tasks</p>
+                </header>
+                <div class="row">
+                    <section class="col-4 col-12-narrower">
+                        <div class="appliance-card">
+                            <div class="appliance-icon"><i class="fas fa-filter"></i></div>
+                            <h4>HVAC Filter</h4>
+                            <p>Status: <strong>Due for replacement</strong></p>
+                            <p>Last changed: 3 months ago</p>
+                            <a href="#" class="button small">Mark as Done</a>
+                        </div>
+                    </section>
+                    <section class="col-4 col-12-narrower">
+                        <div class="appliance-card">
+                            <div class="appliance-icon"><i class="fas fa-fire-extinguisher"></i></div>
+                            <h4>Smoke Detector</h4>
+                            <p>Status: <strong>Test recommended</strong></p>
+                            <p>Last tested: 1 month ago</p>
+                            <a href="#" class="button small">Test Now</a>
+                        </div>
+                    </section>
+                    <section class="col-4 col-12-narrower">
+                        <div class="appliance-card">
+                            <div class="appliance-icon"><i class="fas fa-faucet"></i></div>
+                            <h4>Water Heater</h4>
+                            <p>Status: <strong>Annual service due</strong></p>
+                            <p>Last serviced: 1 year ago</p>
+                            <a href="#" class="button small">Schedule Service</a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section id="cta" class="wrapper style3">
+            <div class="container">
+                <header>
+                    <h2>Ready to optimize your home?</h2>
+                    <a href="#" class="button">Upgrade to Premium</a>
+                </header>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div id="footer">
+            <div class="container">
+                <div class="row">
+                    <section class="col-3 col-6-narrower col-12-mobilep">
+                        <h3>Quick Links</h3>
+                        <ul class="links">
+                            <li><a href="#">Add New Device</a></li>
+                            <li><a href="#">Energy Reports</a></li>
+                            <li><a href="#">Maintenance Schedule</a></li>
+                            <li><a href="#">User Manuals</a></li>
+                        </ul>
+                    </section>
+                    <section class="col-3 col-6-narrower col-12-mobilep">
+                        <h3>Support</h3>
+                        <ul class="links">
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Troubleshooting</a></li>
+                            <li><a href="#">Contact Support</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </section>
+                    <section class="col-6 col-12-narrower">
+                        <h3>Get In Touch</h3>
+                        <form>
+                            <div class="row gtr-50">
+                                <div class="col-6 col-12-mobilep">
+                                    <input type="text" name="name" id="name" placeholder="Name" />
+                                </div>
+                                <div class="col-6 col-12-mobilep">
+                                    <input type="email" name="email" id="email" placeholder="Email" />
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="message" id="message" placeholder="Message" rows="5"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" class="button alt" value="Send Message" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+            </ul>
+
+            <div class="copyright">
+                <ul class="menu">
+                    <li>&copy; Digital Home Manager. All rights reserved</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.dropotron.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+        // For first-time setup only — run this once in browser console or add temporarily
+        // localStorage.setItem("user", JSON.stringify({ username: "admin", password: "1234" }));
+      
+        function checkLogin() {
+          const user = JSON.parse(localStorage.getItem("user"));
+          const isLoggedIn = sessionStorage.getItem("loggedIn");
+      
+          if (user && isLoggedIn === "true") {
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("site-content").style.display = "block";
+            document.getElementById("logout-bar").style.display = "block";
+          } else {
+            document.getElementById("login-section").style.display = "block";
+            document.getElementById("site-content").style.display = "none";
+          }
+        }
+      
+        function login() {
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const user = JSON.parse(localStorage.getItem("user"));
+      
+          if (user && username === user.username && password === user.password) {
+            sessionStorage.setItem("loggedIn", "true");
+            checkLogin();
+          } else {
+            document.getElementById("login-error").innerText = "Invalid username or password.";
+          }
+        }
+      
+        function logout() {
+          sessionStorage.removeItem("loggedIn");
+          location.reload();
+        }
+      
+        // Run on page load
+        window.onload = checkLogin;
+    </script>
+</body>
+</html>
